@@ -18,16 +18,30 @@ function initApp() {
     }).then(stream => {
         video.srcObject = stream;
         video.onloadedmetadata = () => {
-            canvas.width = tempCanvas.width = video.videoWidth;
-            canvas.height = tempCanvas.height = video.videoHeight;
-            initWS(); // Inicializa o WebSocket após carregar a câmera
+            video.play().then(() => {
+                if (video.videoWidth > 0 && video.videoHeight > 0) {
+                    canvas.width = tempCanvas.width = video.videoWidth;
+                    canvas.height = tempCanvas.height = video.videoHeight;
+                    console.log("Câmera inicializada com sucesso:", video.videoWidth, "x", video.videoHeight);
+                    initWS(); 
+                } else {
+                    console.error("Câmera retornou dimensões inválidas (0x0)");
+                }
+            }).catch(err => {
+                console.error("Erro ao iniciar reprodução do vídeo:", err);
+            });
         };
+    }).catch(err => {
+        console.error("Erro ao acessar a webcam:", err);
+        const statusText = document.getElementById('status-text');
+        if (statusText) statusText.textContent = "Erro: Acesso à câmera negado";
     });
 
     // Função para inicializar a conexão WebSocket
     function initWS() {
         const protocol = location.protocol === 'https:' ? 'wss:' : 'ws:';
         ws = new WebSocket(`${protocol}//${location.host}/ws`);
+        console.log("Conectando ao WebSocket...");
         
         ws.onmessage = (event) => {
             const data = JSON.parse(event.data);
@@ -80,14 +94,28 @@ function initApp() {
             img.src = data.image;
         };
 
-        ws.onopen = sendFrame;
-        ws.onclose = () => setTimeout(initWS, 1000); // Tenta reconectar em 1 segundo
+        ws.onopen = () => {
+            console.log("Conexão WebSocket aberta");
+            sendFrame();
+        };
+
+        ws.onclose = () => {
+            console.warn("Conexão WebSocket fechada. Tentando reconectar...");
+            setTimeout(initWS, 1000);
+        };
+
+        ws.onerror = (err) => {
+            console.error("Erro no WebSocket:", err);
+        };
     }
 
     // Controles de qualidade e configurações
     const qualitySlider = document.getElementById('quality-slider');
     const qualityValue = document.getElementById('quality-value');
     const drawLandmarksCb = document.getElementById('draw-landmarks-cb');
+    
+    if (!drawLandmarksCb) console.warn("Aviso: Checkbox 'draw-landmarks-cb' não encontrado no DOM");
+    
     let currentQuality = 0.6;
 
     if (qualitySlider && qualityValue) {
@@ -101,7 +129,7 @@ function initApp() {
     function sendFrame() {
         if (ws && ws.readyState === WebSocket.OPEN) {
             tempCtx.drawImage(video, 0, 0);
-            const drawLandmarks = draw_landmarks_cb ? draw_landmarks_cb.checked : true;
+            const drawLandmarks = (drawLandmarksCb && drawLandmarksCb.checked !== undefined) ? drawLandmarksCb.checked : true;
             ws.send(JSON.stringify({
                 image: tempCanvas.toDataURL('image/jpeg', currentQuality),
                 draw_landmarks: drawLandmarks

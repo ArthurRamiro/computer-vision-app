@@ -34,7 +34,13 @@ def get():
             Div(
                 Div(
                     H1("Rockit Vision", cls="main-title"),
-                    P("Sistema Inteligente de Reconhecimento de Gestos", cls="subtitle")
+                    P("Sistema Inteligente de Reconhecimento de Gestos", cls="subtitle"),
+                    Nav(
+                        A("Monitoramento", href="#vision", cls="nav-link"),
+                        A("Biblioteca", href="#gestures", cls="nav-link"),
+                        A("Tecnologia", href="#how-it-works", cls="nav-link"),
+                        cls="nav-container"
+                    )
                 ),
                 cls="header-content"
             )
@@ -84,7 +90,7 @@ def get():
 
         # Seção de Gestos Reconhecidos (Estilo Como Funciona)
         Div(
-            H2("Gestos Reconhecidos"),
+            H2("Biblioteca de Gestos"),
             P("Conheça os movimentos que nosso APP é capaz de identificar instantaneamente.", cls="section-subtitle"),
             Div(
                 Div(
@@ -137,7 +143,7 @@ def get():
 
         # Seção de explicação técnica
         Div(
-            H2("Como Funciona?"),
+            H2("Tecnologia"),
             P("Uma combinação poderosa de Visão Computacional e Inteligência Artificial para traduzir movimentos em dados.", cls="section-subtitle"),
             Div(
                 Div(
@@ -200,16 +206,20 @@ def get():
 # Rota WebSocket para processamento em tempo real
 @app.ws("/ws")
 async def ws(image: str, draw_landmarks: bool, send):
-    img = decode_image(image)
-    if img is not None:
-        processed_img, labels, gesture_image = processor.process_frame(img, draw_landmarks)
-        fps = fps_tracker.update()
-        await send(json.dumps({
-            "image": encode_image(processed_img),
-            "labels": labels,
-            "gesture_image": gesture_image,
-            "fps": fps
-        }))
+    try:
+        # print(f"Frame recebido - Tamanho: {len(image)}")
+        img = decode_image(image)
+        if img is not None:
+            processed_img, labels, gesture_image = processor.process_frame(img, draw_landmarks)
+            fps = fps_tracker.update()
+            await send(json.dumps({
+                "image": encode_image(processed_img),
+                "labels": labels,
+                "gesture_image": gesture_image,
+                "fps": fps
+            }))
+    except Exception as e:
+        print(f"Erro no WebSocket do servidor: {e}")
 
 if __name__ == "__main__":
     serve()

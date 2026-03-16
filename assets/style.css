@@ -107,9 +107,8 @@ header {
     width: 100%;
     margin-bottom: var(--space-lg);
     animation: fadeInDown 0.8s ease;
-    position: sticky;
-    top: 0;
-    z-index: 1000;
+    position: relative;
+    z-index: 100;
     background: rgba(0, 0, 0, 0.95);
     backdrop-filter: blur(20px);
     border-bottom: 2px solid var(--border-main);
@@ -156,29 +155,29 @@ header {
 /* Menu de Navegação - Cápsula Premium */
 .nav-container {
     display: flex;
-    gap: 2.5rem;
-    padding: 0.75rem 2.5rem;
-    background: rgba(255, 255, 255, 0.03);
-    border-radius: var(--radius-full);
-    border: 1px solid rgba(255, 200, 87, 0.15);
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+    gap: 3rem;
+    padding: 1rem 0;
+    justify-content: center;
+    margin-top: 1rem;
 }
 
 /* Links do Menu - Forçando ausência de azul */
 .nav-link {
-    font-size: 0.85rem !important;
+    font-size: 0.8rem !important;
     font-weight: 700 !important;
     text-transform: uppercase !important;
-    letter-spacing: 0.15em !important;
-    color: var(--text-muted) !important;
+    letter-spacing: 0.2em !important;
+    color: var(--primary) !important;
     text-decoration: none !important;
     position: relative !important;
-    padding: 0.2rem 0 !important;
     transition: all 0.3s ease !important;
+    opacity: 0.7;
+    filter: drop-shadow(0 0 5px var(--gold-glow));
 }
 
 .nav-link:hover, 
 .nav-link.active {
+    opacity: 1;
     color: var(--primary) !important;
     text-shadow: 0 0 15px var(--gold-glow) !important;
 }
@@ -213,7 +212,7 @@ header {
     display: flex;
     flex-direction: column;
     align-items: center;
-    scroll-margin-top: 100px;
+    scroll-margin-top: 80px;
 }
 
 .gestures-card-container {
@@ -294,14 +293,16 @@ header {
     align-items: center;
     gap: 3rem;
     width: 100%;
-    scroll-margin-top: 100px;
+    scroll-margin-top: 80px;
 }
 
 @media (min-width: 1024px) {
     .main-content {
-        flex-direction: row;
-        align-items: flex-start;
-        justify-content: center;
+        display: grid;
+        grid-template-columns: 1.8fr 1fr;
+        gap: 2rem;
+        align-items: stretch;
+        max-width: 1200px;
     }
 }
 
@@ -313,32 +314,20 @@ header {
     position: relative;
     background: var(--bg-surface);
     border: 1px solid var(--border-main);
-    border-radius: var(--radius-sm);
-    padding: 0.75rem;
+    border-radius: var(--radius-md);
+    padding: 0.5rem;
     box-shadow: var(--shadow-glow);
     overflow: hidden;
     display: flex;
     justify-content: center;
     align-items: center;
-    width: 640px;
-    height: 480px;
-    flex: none;
+    width: 100%;
+    aspect-ratio: 16 / 9;
     transition: var(--transition-slow);
 }
 
 /* Linha de Scaner Animada */
-.vision-card::after {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 4px;
-    background: var(--primary);
-    box-shadow: 0 0 15px var(--primary);
-    animation: scan 3s infinite linear;
-    z-index: 5;
-}
+
 
 /* Status e Badges de Performance */
 .vision-status {
@@ -411,20 +400,22 @@ h1 {
 .sidebar-info {
     display: flex;
     flex-direction: column;
-    gap: 1.5rem;
+    gap: 1rem;
     width: 100%;
-    max-width: 350px;
 }
 
 .info-card {
     background: var(--card-bg);
     border: 1px solid var(--border-main);
-    padding: 1.5rem;
+    padding: 1.25rem;
     position: relative;
     border-right: 4px solid var(--primary);
-    clip-path: polygon(0 0, 100% 0, 100% 90%, 95% 100%, 0 100%);
+    clip-path: polygon(0 0, 100% 0, 100% 92%, 96% 100%, 0 100%);
     backdrop-filter: blur(10px);
     transition: var(--transition-slow);
+    flex: 1;
+    display: flex;
+    flex-direction: column;
 }
 
 .info-card h3 {
@@ -451,6 +442,7 @@ input[type="range"] {
     flex: 1;
     height: 6px;
     -webkit-appearance: none;
+    appearance: none;
     background: var(--border-main);
     border-radius: var(--radius-full);
     outline: none;
@@ -458,6 +450,7 @@ input[type="range"] {
 
 input[type="range"]::-webkit-slider-thumb {
     -webkit-appearance: none;
+    appearance: none;
     width: 18px;
     height: 18px;
     background: var(--primary);
@@ -499,7 +492,7 @@ input[type="range"]::-webkit-slider-thumb:hover {
     display: flex;
     flex-direction: column;
     align-items: center;
-    scroll-margin-top: 100px;
+    scroll-margin-top: 80px;
 }
 
 .how-it-works h2 {
@@ -600,7 +593,7 @@ input[type="range"]::-webkit-slider-thumb:hover {
     background: var(--bg-surface);
     display: flex;
     justify-content: center;
-    scroll-margin-top: 100px;
+    scroll-margin-top: 80px;
 }
 
 .footer-content {
@@ -637,12 +630,33 @@ input[type="range"]::-webkit-slider-thumb:hover {
     animation: pulse-border 2s infinite ease-in-out;
 }
 
+.gesture-preview-box {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    flex: 1; /* Ocupa o espaço restante do card */
+    min-height: 120px;
+    padding: 0.5rem 0;
+}
+
 #gesture-image {
     width: 140px;
     height: auto;
-    border-radius: var(--radius-sm);
-    filter: drop-shadow(0 0 15px var(--primary-glow));
-    border: 1px solid var(--border-main);
+    border-radius: var(--radius-md);
+    filter: drop-shadow(0 0 15px var(--gold-glow));
+    transition: var(--transition-slow);
+    display: none; /* Escondido por padrão, script.js controla o display */
+}
+
+#gesture-image.active-gesture {
+    display: block;
+    animation: activeGestureAppear 0.5s ease-out;
+}
+
+@keyframes activeGestureAppear {
+    from { opacity: 0; transform: scale(0.8); }
+    to { opacity: 1; transform: scale(1); }
 }
 
 canvas {

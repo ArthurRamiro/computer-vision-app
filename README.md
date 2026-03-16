@@ -95,8 +95,6 @@ computer_vision_app/
 
 ## 👨‍💻 Desenvolvedor
 
-Desenvolvido com ☕ e 🐍 por:
-
 **Arthur Ramiro Martins**
 - [GitHub](https://github.com/ArthurRamiro)
 - [LinkedIn](https://www.linkedin.com/in/arthur-ramiro-4011322a1/)

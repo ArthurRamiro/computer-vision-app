@@ -138,7 +138,7 @@ function initApp() {
     }
 
     // Lógica para destacar o item ativo no menu ao rolar a página
-    const sections = ['vision', 'how-it-works', 'footer'].map(id => document.getElementById(id));
+    const sections = ['vision', 'gestures', 'how-it-works'].map(id => document.getElementById(id));
     const navItems = document.querySelectorAll('.nav-link');
 
     window.addEventListener('scroll', () => {
@@ -147,7 +147,7 @@ function initApp() {
             if (section) {
                 const sectionTop = section.offsetTop;
                 const sectionHeight = section.clientHeight;
-                if (window.pageYOffset >= (sectionTop - 150)) {
+                if (window.pageYOffset >= (sectionTop - 200)) {
                     current = section.getAttribute('id');
                 }
             }

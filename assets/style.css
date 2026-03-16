@@ -96,63 +96,100 @@ a, a:visited, a:active, a:link {
     max-width: 1440px;
     width: 100%;
     margin: 0 auto;
-    padding: 2rem;
+    padding: 2rem 0; /* Removido padding lateral para os wrappers internos controlarem */
     display: flex;
     flex-direction: column;
     align-items: center;
     gap: var(--space-md);
 }
 
-header {
+/* Menu de Navegação Superior (Sticky Glassmorphism) */
+.main-nav {
+    position: sticky;
+    top: 0;
     width: 100%;
-    margin-bottom: var(--space-lg);
-    animation: fadeInDown 0.8s ease;
-    position: relative;
-    z-index: 100;
-    background: rgba(0, 0, 0, 0.95);
-    backdrop-filter: blur(20px);
-    border-bottom: 2px solid var(--border-main);
-    padding: 1.5rem 0 2.5rem 0;
+    background: rgba(0, 0, 0, 0.8);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border-main);
+    z-index: 1000;
+    padding: 1rem 0;
+    transition: all 0.3s ease;
 }
 
-.header-content {
+.nav-content {
+    width: 100%;
+    padding: 0 4rem;
+    display: flex;
+    align-items: center;
+    position: relative; /* Base para o posicionamento absoluto dos links */
+}
+
+.nav-logo {
+    font-weight: 800;
+    font-size: 1.25rem;
+    letter-spacing: -0.02em;
+    color: #FFFFFF !important;
+    text-transform: uppercase;
+    z-index: 10;
+}
+
+.nav-links-group {
+    display: flex;
+    gap: 3rem;
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+/* Ajustes no Link do Menu Superior */
+.main-nav .nav-link {
+    font-size: 0.75rem !important;
+    letter-spacing: 0.15em !important;
+    opacity: 0.6;
+}
+
+/* Hero Section (Título e Subtítulo) */
+.hero-section {
+    width: 100%;
+    padding: 6rem 0 4rem 0;
+    animation: fadeInDown 1s cubic-bezier(0.16, 1, 0.3, 1);
+    text-align: center;
+    position: relative;
+    background: radial-gradient(circle at center, rgba(255, 200, 87, 0.05) 0%, transparent 70%);
+}
+
+.hero-content {
     max-width: 1440px;
     margin: 0 auto;
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 1.5rem;
-    text-align: center;
-    position: relative;
+    gap: 1rem;
 }
 
 /* Links Sociais no Cabeçalho - Removidos a pedido */
 
 /* Título Principal com Gradiente e Brilho */
 .main-title {
-    font-size: 4rem !important;
+    font-size: 5.5rem !important;
     font-weight: 800 !important;
     margin: 0 !important;
-    background: var(--gold-gradient) !important;
+    background: linear-gradient(180deg, #FFFFFF 0%, #FFC857 100%) !important;
     -webkit-background-clip: text !important;
     background-clip: text !important;
     -webkit-text-fill-color: transparent !important;
-    letter-spacing: -0.02em !important;
+    letter-spacing: -0.04em !important;
     text-transform: uppercase !important;
-    filter: drop-shadow(0 0 20px var(--gold-glow)) !important;
-    line-height: 1 !important;
+    filter: drop-shadow(0 0 30px rgba(255, 200, 87, 0.2)) !important;
+    line-height: 0.9 !important;
+    margin-bottom: 0.5rem !important;
 }
 
 
 
 /* Menu de Navegação - Cápsula Premium */
-.nav-container {
-    display: flex;
-    gap: 3rem;
-    padding: 1rem 0;
-    justify-content: center;
-    margin-top: 1rem;
-}
+
 
 /* Links do Menu - Forçando ausência de azul */
 .nav-link {
@@ -548,14 +585,7 @@ input[type="range"]::-webkit-slider-thumb:hover {
     font-size: 0.95rem;
 }
 
-/* Divisor Snake Estilizado */
-.snake-divider {
-    width: 100%;
-    height: 1px;
-    background: linear-gradient(90deg, transparent, var(--primary), transparent);
-    margin: 4rem 0;
-    opacity: 0.3;
-}
+
 
 /* Rodapé do App */
 /* Estilos para Imagens de Gestos nos Cards */
@@ -576,7 +606,8 @@ input[type="range"]::-webkit-slider-thumb:hover {
 /* Rodapé do App */
 .app-footer {
     width: 100%;
-    padding: 4rem 2rem;
+    margin: 0;
+    padding: 4rem 0;
     border-top: 1px solid var(--border-main);
     background: var(--bg-surface);
     display: flex;

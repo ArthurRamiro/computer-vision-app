@@ -30,155 +30,166 @@ fps_tracker = FPSTracker()
 def get():
     # Estrutura principal da página usando componentes FastHTML
     return Title("Rockit Vision — Reconhecimento de Gestos com IA"), Main(
+        # Barra de Navegação Superior (Sticky Glassmorphism)
+        Nav(
+            Div(
+                A("Rockit Vision", href="#", cls="nav-logo"),
+                Div(
+                    A("Monitoramento", href="#vision", cls="nav-link"),
+                    A("Biblioteca", href="#gestures", cls="nav-link"),
+                    A("Tecnologia", href="#how-it-works", cls="nav-link"),
+                    cls="nav-links-group"
+                ),
+                cls="nav-content"
+            ),
+            cls="main-nav"
+        ),
+        # Hero Section (Título e Impacto)
         Header(
             Div(
-                Div(
-                    H1("Rockit Vision", cls="main-title"),
-                    P("Sistema Inteligente de Reconhecimento de Gestos", cls="section-subtitle"),
-                    Nav(
-                        A("Monitoramento", href="#vision", cls="nav-link"),
-                        A("Biblioteca", href="#gestures", cls="nav-link"),
-                        A("Tecnologia", href="#how-it-works", cls="nav-link"),
-                        cls="nav-container"
-                    )
-                ),
-                cls="header-content"
-            )
-        ),
-        Div(
-            Div(
-                # Card de visualização da câmera
-                Div(
-                    Span("", cls="status-dot"),
-                    Span("Aguardando Gesto...", id="status-text"),
-                    cls="vision-status"
-                ),
-                Video(id="video", autoplay=True, playsinline=True, style="display:none"),
-                Canvas(id="canvas"),
-                Div("FPS: 0", id="fps-counter", cls="fps-badge"),
-                cls="vision-card"
+                H1("Rockit Vision", cls="main-title"),
+                P("Sistema Inteligente de Reconhecimento de Gestos", cls="section-subtitle"),
+                cls="hero-content"
             ),
+            cls="hero-section"
+        ),
+        # Wrapper para o conteúdo centralizado (Garante que o grid e textos fiquem no meio)
+        Div(
+            # Monitoramento e visão
             Div(
-                # Card de controles e configurações
                 Div(
-                    H3("Controle de Qualidade"),
+                    # Card de visualização da câmera
                     Div(
-                        Input(type="range", id="quality-slider", min="0.1", max="1.0", step="0.05", value="0.6"),
-                        Span("60%", id="quality-value"),
-                        cls="quality-control"
+                        Span("", cls="status-dot"),
+                        Span("Aguardando Gesto...", id="status-text"),
+                        cls="vision-status"
                     ),
-                    H3("Configurações"),
+                    Video(id="video", autoplay=True, playsinline=True, style="display:none"),
+                    Canvas(id="canvas"),
+                    Div("FPS: 0", id="fps-counter", cls="fps-badge"),
+                    cls="vision-card"
+                ),
+                Div(
+                    # Card de controles e configurações
                     Div(
-                        Label(Input(type="checkbox", id="draw-landmarks-cb", checked=True), " Desenhar Pontos da Mão"),
-                        cls="settings-control"
+                        H3("Controle de Qualidade"),
+                        Div(
+                            Input(type="range", id="quality-slider", min="0.1", max="1.0", step="0.05", value="0.6"),
+                            Span("60%", id="quality-value"),
+                            cls="quality-control"
+                        ),
+                        H3("Configurações"),
+                        Div(
+                            Label(Input(type="checkbox", id="draw-landmarks-cb", checked=True), " Desenhar Pontos da Mão"),
+                            cls="settings-control"
+                        ),
+                        H3("Dados em Tempo Real"),
+                        Div(id="gesture-container"),
+                        cls="info-card"
                     ),
-                    H3("Dados em Tempo Real"),
-                    Div(id="gesture-container"),
-                    cls="info-card"
+                    # Card de visualização do gesto detectado
+                    Div(
+                        H3("Gesto Detectado"),
+                        Div(Img(id="gesture-image"), cls="gesture-preview-box"),
+                        cls="info-card"
+                    ),
+                    cls="sidebar-info"
                 ),
-                # Card de visualização do gesto detectado
-                Div(
-                    H3("Gesto Detectado"),
-                    Div(Img(id="gesture-image"), cls="gesture-preview-box"),
-                    cls="info-card"
-                ),
-                cls="sidebar-info"
+                cls="main-content",
+                id="vision"
             ),
-            cls="main-content",
-            id="vision"
-        ),
 
-        # Seção de Gestos Reconhecidos (Estilo Como Funciona)
-        Div(
-            H2("Biblioteca de Gestos"),
-            P("Conheça os movimentos que nosso APP é capaz de identificar instantaneamente.", cls="section-subtitle"),
+            # Seção de Gestos Reconhecidos (Biblioteca)
             Div(
+                H2("Biblioteca de Gestos"),
+                P("Conheça os movimentos que nosso APP é capaz de identificar instantaneamente.", cls="section-subtitle"),
                 Div(
-                    Img(src="/assets/images/gestures/ola.png", cls="gesture-card-img"),
-                    H4("Saudação"),
-                    P("Reconhecimento de 'Olá' ou 'Tchau' baseado na palma aberta e dedos estendidos."),
-                    cls="step-card"
+                    Div(
+                        Img(src="/assets/images/gestures/ola.png", cls="gesture-card-img"),
+                        H4("Saudação"),
+                        P("Reconhecimento de 'Olá' ou 'Tchau' baseado na palma aberta e dedos estendidos."),
+                        cls="step-card"
+                    ),
+                    Div(
+                        Img(src="/assets/images/gestures/joinha.png", cls="gesture-card-img"),
+                        H4("Positivo"),
+                        P("O clássico 'Joinha' detectado pela orientação específica do polegar para cima."),
+                        cls="step-card"
+                    ),
+                    Div(
+                        Img(src="/assets/images/gestures/paz.png", cls="gesture-card-img"),
+                        H4("Paz e Amor"),
+                        P("Identificação do símbolo de paz através da separação dos dedos indicador e médio."),
+                        cls="step-card"
+                    ),
+                    Div(
+                        Img(src="/assets/images/gestures/rock.png", cls="gesture-card-img"),
+                        H4("Metal"),
+                        P("Gesto do rock reconhecido pela extensão dos dedos indicador e mindinho."),
+                        cls="step-card"
+                    ),
+                    Div(
+                        Img(src="/assets/images/gestures/hangloose.png", cls="gesture-card-img"),
+                        H4("Hang Loose"),
+                        P("Mapeamento do sinal surfista com polegar e minguinho em sentidos opostos."),
+                        cls="step-card"
+                    ),
+                    Div(
+                        Img(src="/assets/images/gestures/spock.png", cls="gesture-card-img"),
+                        H4("Saudação Spock"),
+                        P("Famoso gesto vulcano reconhecido pela divisão binária dos dedos da mão."),
+                        cls="step-card"
+                    ),
+                    Div(
+                        Img(src="/assets/images/gestures/coracao.png", cls="gesture-card-img"),
+                        H4("Coração"),
+                        P("Gesto bilateral de afeto detectado quando ambos os polegares se tocam em arco."),
+                        cls="step-card"
+                    ),
+                    cls="steps-grid"
                 ),
-                Div(
-                    Img(src="/assets/images/gestures/joinha.png", cls="gesture-card-img"),
-                    H4("Positivo"),
-                    P("O clássico 'Joinha' detectado pela orientação específica do polegar para cima."),
-                    cls="step-card"
-                ),
-                Div(
-                    Img(src="/assets/images/gestures/paz.png", cls="gesture-card-img"),
-                    H4("Paz e Amor"),
-                    P("Identificação do símbolo de paz através da separação dos dedos indicador e médio."),
-                    cls="step-card"
-                ),
-                Div(
-                    Img(src="/assets/images/gestures/rock.png", cls="gesture-card-img"),
-                    H4("Metal"),
-                    P("Gesto do rock reconhecido pela extensão dos dedos indicador e mindinho."),
-                    cls="step-card"
-                ),
-                Div(
-                    Img(src="/assets/images/gestures/hangloose.png", cls="gesture-card-img"),
-                    H4("Hang Loose"),
-                    P("Mapeamento do sinal surfista com polegar e minguinho em sentidos opostos."),
-                    cls="step-card"
-                ),
-                Div(
-                    Img(src="/assets/images/gestures/spock.png", cls="gesture-card-img"),
-                    H4("Saudação Spock"),
-                    P("Famoso gesto vulcano reconhecido pela divisão binária dos dedos da mão."),
-                    cls="step-card"
-                ),
-                Div(
-                    Img(src="/assets/images/gestures/coracao.png", cls="gesture-card-img"),
-                    H4("Coração"),
-                    P("Gesto bilateral de afeto detectado quando ambos os polegares se tocam em arco."),
-                    cls="step-card"
-                ),
-                cls="steps-grid"
+                cls="how-it-works",
+                id="gestures"
             ),
-            cls="how-it-works",
-            id="gestures"
-        ),
 
-        # Seção de explicação técnica
-        Div(
-            H2("Tecnologia"),
-            P("Uma combinação poderosa de Visão Computacional e Inteligência Artificial para traduzir movimentos em dados.", cls="section-subtitle"),
+            # Seção de tecnologia
             Div(
+                H2("Tecnologia"),
+                P("Uma combinação poderosa de Visão Computacional e Inteligência Artificial para traduzir movimentos em dados.", cls="section-subtitle"),
                 Div(
-                    NotStr('<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="step-icon"><path d="M14.5 4h-5L7 7H4a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-3l-2.5-3z"/><circle cx="12" cy="13" r="3"/></svg>'),
-                    H4("Captura de Alta Fidelidade"),
-                    P("A sequência de frames é capturada via webcam com técnicas de filtragem para garantir clareza visual mesmo em ambientes com pouca luz."),
-                    cls="step-card"
+                    Div(
+                        NotStr('<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="step-icon"><path d="M14.5 4h-5L7 7H4a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-3l-2.5-3z"/><circle cx="12" cy="13" r="3"/></svg>'),
+                        H4("Captura de Alta Fidelidade"),
+                        P("A sequência de frames é capturada via webcam com técnicas de filtragem para garantir clareza visual mesmo em ambientes com pouca luz."),
+                        cls="step-card"
+                    ),
+                    Div(
+                        NotStr('<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="step-icon"><path d="M12 2v8"/><path d="m4.93 10.93 1.41 1.41"/><path d="M2 18h2"/><path d="M20 18h2"/><path d="m19.07 10.93-1.41 1.41"/><path d="M22 22H2"/><path d="m8 22 4-10 4 10"/><path d="M14 18H10"/></svg>'),
+                        H4("Rede Neural Avançada"),
+                        P("Utilização do MediaPipe para mapear instantaneamente os 21 pontos articulares (landmarks) da mão em um espaço tridimensional."),
+                        cls="step-card"
+                    ),
+                    Div(
+                        NotStr('<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="step-icon"><rect width="18" height="18" x="3" y="3" rx="2"/><path d="M7 14h10"/><path d="M10 11h4"/><path d="M8 17h8"/><path d="M12 11V7"/></svg>'),
+                        H4("Motor de Inferência"),
+                        P("Algoritmos de Machine Learning classificam a orientação dos pontos em gestos específicos com alta precisão."),
+                        cls="step-card"
+                    ),
+                    Div(
+                        NotStr('<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="step-icon"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>'),
+                        H4("Feedback Real-Time"),
+                        P("Processamento de baixa latência que entrega resultados instantâneos e métricas de performance direto na sua tela."),
+                        cls="step-card"
+                    ),
+                    cls="steps-grid"
                 ),
-                Div(
-                    NotStr('<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="step-icon"><path d="M12 2v8"/><path d="m4.93 10.93 1.41 1.41"/><path d="M2 18h2"/><path d="M20 18h2"/><path d="m19.07 10.93-1.41 1.41"/><path d="M22 22H2"/><path d="m8 22 4-10 4 10"/><path d="M14 18H10"/></svg>'),
-                    H4("Rede Neural Avançada"),
-                    P("Utilização do MediaPipe para mapear instantaneamente os 21 pontos articulares (landmarks) da mão em um espaço tridimensional."),
-                    cls="step-card"
-                ),
-                Div(
-                    NotStr('<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="step-icon"><rect width="18" height="18" x="3" y="3" rx="2"/><path d="M7 14h10"/><path d="M10 11h4"/><path d="M8 17h8"/><path d="M12 11V7"/></svg>'),
-                    H4("Motor de Inferência"),
-                    P("Algoritmos de Machine Learning classificam a orientação dos pontos em gestos específicos com alta precisão."),
-                    cls="step-card"
-                ),
-                Div(
-                    NotStr('<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="step-icon"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>'),
-                    H4("Feedback Real-Time"),
-                    P("Processamento de baixa latência que entrega resultados instantâneos e métricas de performance direto na sua tela."),
-                    cls="step-card"
-                ),
-                cls="steps-grid"
+                cls="how-it-works",
+                id="how-it-works"
             ),
-            cls="how-it-works",
-            id="how-it-works"
+            cls="app-container" # Container centralizado termina aqui
         ),
 
-        Div(cls="snake-divider"),
-
-        # Rodapé e links sociais
+        # Rodapé fora do container para ocupar largura total
         Div(
             Div(
                 P("© 2026 Rockit Vision. Desenvolvido durante a NLW Operator."),
@@ -198,9 +209,7 @@ def get():
             ),
             cls="app-footer",
             id="footer"
-        ),
-
-        cls="app-container"
+        )
     )
 
 # Rota WebSocket para processamento em tempo real

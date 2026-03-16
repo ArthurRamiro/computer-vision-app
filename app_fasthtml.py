@@ -34,7 +34,7 @@ def get():
             Div(
                 Div(
                     H1("Rockit Vision", cls="main-title"),
-                    P("Sistema Inteligente de Reconhecimento de Gestos", cls="subtitle"),
+                    P("Sistema Inteligente de Reconhecimento de Gestos", cls="section-subtitle"),
                     Nav(
                         A("Monitoramento", href="#vision", cls="nav-link"),
                         A("Biblioteca", href="#gestures", cls="nav-link"),
@@ -114,7 +114,7 @@ def get():
                 Div(
                     Img(src="/assets/images/gestures/rock.png", cls="gesture-card-img"),
                     H4("Metal"),
-                    P("Gesto do rock reconhecido pela extensão dos dedos indicador e minguinho."),
+                    P("Gesto do rock reconhecido pela extensão dos dedos indicador e mindinho."),
                     cls="step-card"
                 ),
                 Div(

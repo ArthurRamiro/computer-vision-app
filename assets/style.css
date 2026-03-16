@@ -143,14 +143,7 @@ header {
     line-height: 1 !important;
 }
 
-.subtitle {
-    font-size: 1rem;
-    letter-spacing: 0.4em;
-    text-transform: uppercase;
-    color: var(--text-muted);
-    margin-top: 0.75rem;
-    margin-bottom: 1rem;
-}
+
 
 /* Menu de Navegação - Cápsula Premium */
 .nav-container {
@@ -389,12 +382,7 @@ h1 {
     filter: drop-shadow(0 0 10px var(--primary-glow));
 }
 
-.subtitle {
-    color: var(--text-muted);
-    font-size: 1.2rem;
-    letter-spacing: 0.2em;
-    text-transform: uppercase;
-}
+
 
 /* Painéis de Informação (Sidebar) */
 .sidebar-info {

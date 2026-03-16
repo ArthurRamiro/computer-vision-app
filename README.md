@@ -6,7 +6,7 @@ Este projeto foi desenvolvido durante a **NLW Operator 2026** da Rocketseat.
 
 ---
 
-## ✨ Funcionalidades
+## Funcionalidades
 
 - 🖐️ **Detecção Multi-Mão**: Rastreamento simultâneo de até duas mãos.
 - 🎯 **21 Pontos de Referência**: Mapeamento preciso das articulações da mão via MediaPipe Landmarks.
